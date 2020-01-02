@@ -7,8 +7,10 @@ import javax.persistence.*;
 public class UserDialog {
 
     @Id
+    @Column(name="USERID")
     private Long userId;
 
+    @Column(name="DIALOGID")
     private Long dialogId;
 
     public UserDialog(Long userId, Long dialogId) {

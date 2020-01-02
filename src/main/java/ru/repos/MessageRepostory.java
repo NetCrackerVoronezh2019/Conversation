@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface MessegeRepostory extends CrudRepository<Message,Long> {
+public interface MessageRepostory extends CrudRepository<Message,Long> {
     List<Message> findByDialogIdOrderByDate(Long dialogId);
 }

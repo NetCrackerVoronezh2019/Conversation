@@ -9,11 +9,18 @@ public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="MESSAGEID")
     private Long messageId;
+    @Column(name="TEXT")
     private String text;
+    @Column(name="DATEOFSENDING")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+    @Column(name="DIALOGID")
     private Long dialogId;
+    @Column(name="senderID")
     private Long senderId;
+    @Column(name="isModificated")
     private boolean isModificated;
 
     public Message(String text, Date date, Long dialogId, Long senderId) {

@@ -9,9 +9,14 @@ public class Dialog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="dialogID")
     private Long dialogId;
+    @Column(name="name")
     private String name;
+    @Column(name="CreationDate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date CreationDate;
+    @Column(name="CreatorID")
     private Long CreatorId;
 
     public Dialog(String name, Date creationDate, Long creatorId) {

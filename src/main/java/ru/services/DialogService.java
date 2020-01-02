@@ -3,16 +3,15 @@ package ru.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.domen.Dialog;
-import ru.repos.DIalogRepository;
+import ru.repos.DialogRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class DialogService {
 
     @Autowired
-    private DIalogRepository dialogRepository;
+    private DialogRepository dialogRepository;
 
     @Transactional
     public Dialog getDialogById(Long id){

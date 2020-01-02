@@ -9,15 +9,19 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="USERID")
     private Long UserId;
+    @Column(name="Name")
     private String name;
+    @Column(name="status")
     private String status;
-    private String roleNmae;
+    @Column(name="roleName")
+    private String roleName;
 
-    public User(String name, String status, String roleNmae) {
+    public User(String name, String status, String roleName) {
         this.name = name;
         this.status = status;
-        this.roleNmae = roleNmae;
+        this.roleName = roleName;
     }
 
     public Long getUserId() {
@@ -44,11 +48,11 @@ public class User {
         this.status = status;
     }
 
-    public String getRoleNmae() {
-        return roleNmae;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRoleNmae(String roleNmae) {
-        this.roleNmae = roleNmae;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }
