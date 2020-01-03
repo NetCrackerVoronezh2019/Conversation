@@ -19,16 +19,16 @@ public class UserDialogService {
     }
 
     @Transactional
-    public List<UserDialog> getByUserId(Long id) {
+    public List<UserDialog> getByUserId(Integer id) {
         return userDialogRepository.findByUserIdOrderByDialogId(id);
     }
 
     @Transactional
-    public List<UserDialog> getByDialogId(Long id) {
+    public List<UserDialog> getByDialogId(Integer id) {
         return userDialogRepository.findByDialogIdOrderByUserId(id);
     }
 
-    public void DeleteByUserIdAndDialogId(Long userId,Long dialogId) {
+    public void DeleteByUserIdAndDialogId(Integer userId,Integer dialogId) {
         userDialogRepository.deleteByUserIdAndDialogId(userId,dialogId);
     }
 }

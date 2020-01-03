@@ -8,6 +8,6 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public interface DialogRepository extends CrudRepository<Dialog,Long> {
+public interface DialogRepository extends CrudRepository<Dialog,Integer> {
 
 }

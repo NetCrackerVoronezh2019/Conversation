@@ -14,7 +14,7 @@ public class DialogService {
     private DialogRepository dialogRepository;
 
     @Transactional
-    public Dialog getDialogById(Long id){
+    public Dialog getDialogById(Integer id){
         return dialogRepository.findById(id).get();
     }
 
@@ -24,7 +24,7 @@ public class DialogService {
     }
 
     @Transactional
-    public void deleteDialogById(Long id) {
+    public void deleteDialogById(Integer id) {
         dialogRepository.deleteById(id);
     }
 

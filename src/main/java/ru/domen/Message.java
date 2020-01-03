@@ -10,20 +10,20 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="MESSAGEID")
-    private Long messageId;
+    private Integer messageId;
     @Column(name="TEXT")
     private String text;
     @Column(name="DATEOFSENDING")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @Column(name="DIALOGID")
-    private Long dialogId;
+    private Integer dialogId;
     @Column(name="senderID")
-    private Long senderId;
+    private Integer senderId;
     @Column(name="isModificated")
     private boolean isModificated;
 
-    public Message(String text, Date date, Long dialogId, Long senderId) {
+    public Message(String text, Date date, Integer dialogId, Integer senderId) {
         this.text = text;
         this.date = date;
         this.dialogId = dialogId;
@@ -31,11 +31,14 @@ public class Message {
         this.isModificated = false;
     }
 
-    public Long getMessageId() {
+    public Message() {
+    }
+
+    public Integer getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(Long messageId) {
+    public void setMessageId(Integer messageId) {
         this.messageId = messageId;
     }
 
@@ -55,19 +58,19 @@ public class Message {
         this.date = date;
     }
 
-    public Long getDialogId() {
+    public Integer getDialogId() {
         return dialogId;
     }
 
-    public void setDialogId(Long dialogId) {
+    public void setDialogId(Integer dialogId) {
         this.dialogId = dialogId;
     }
 
-    public Long getSenderId() {
+    public Integer getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(Long senderId) {
+    public void setSenderId(Integer senderId) {
         this.senderId = senderId;
     }
 

@@ -14,7 +14,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Transactional
-    public User getUserById(Long id){
+    public User getUserById(Integer id){
         return userRepository.findById(id).get();
     }
 
@@ -24,7 +24,7 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUserById(Long id) {
+    public void deleteUserById(Integer id) {
         userRepository.deleteById(id);
     }
 }

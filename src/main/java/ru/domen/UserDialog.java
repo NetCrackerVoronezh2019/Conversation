@@ -8,21 +8,24 @@ public class UserDialog {
 
     @Id
     @Column(name="USERID")
-    private Long userId;
+    private Integer userId;
 
     @Column(name="DIALOGID")
-    private Long dialogId;
+    private Integer dialogId;
 
-    public UserDialog(Long userId, Long dialogId) {
+    public UserDialog(Integer userId, Integer dialogId) {
         this.userId = userId;
         this.dialogId = dialogId;
     }
 
-    public Long getUserId() {
+    public UserDialog() {
+    }
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public Long getDialogId() {
+    public Integer getDialogId() {
         return dialogId;
     }
 }

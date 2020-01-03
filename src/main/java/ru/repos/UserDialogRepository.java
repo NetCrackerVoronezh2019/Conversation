@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface UserDialogRepository  extends CrudRepository<UserDialog,Long> {
-    List<UserDialog> findByUserIdOrderByDialogId(Long userId);
-    List<UserDialog> findByDialogIdOrderByUserId(Long dialogId);
-    void deleteByUserIdAndDialogId(Long userId, Long DialogId);
+public interface UserDialogRepository  extends CrudRepository<UserDialog,Integer> {
+    List<UserDialog> findByUserIdOrderByDialogId(Integer userId);
+    List<UserDialog> findByDialogIdOrderByUserId(Integer dialogId);
+    void deleteByUserIdAndDialogId(Integer userId, Integer DialogId);
 }

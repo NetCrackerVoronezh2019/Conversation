@@ -3,20 +3,23 @@ package ru.domen;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="USERID")
-    private Long UserId;
-    @Column(name="Name")
+    @Column(name="userid")
+    private Integer UserId;
+    @Column(name="name")
     private String name;
     @Column(name="status")
     private String status;
-    @Column(name="roleName")
+    @Column(name="rolename")
     private String roleName;
+
+    public User() {
+    }
 
     public User(String name, String status, String roleName) {
         this.name = name;
@@ -24,11 +27,11 @@ public class User {
         this.roleName = roleName;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return UserId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         UserId = userId;
     }
 

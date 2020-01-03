@@ -10,26 +10,29 @@ public class Dialog {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="dialogID")
-    private Long dialogId;
+    private Integer dialogId;
     @Column(name="name")
     private String name;
     @Column(name="CreationDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date CreationDate;
     @Column(name="CreatorID")
-    private Long CreatorId;
+    private Integer CreatorId;
 
-    public Dialog(String name, Date creationDate, Long creatorId) {
+    public Dialog(String name, Date creationDate, Integer creatorId) {
         this.name = name;
         CreationDate = creationDate;
         CreatorId = creatorId;
     }
 
-    public  Long getDialogId() {
+    public Dialog() {
+    }
+
+    public  Integer getDialogId() {
         return dialogId;
     }
 
-    public void setDialogId(Long dialogId) {
+    public void setDialogId(Integer dialogId) {
         this.dialogId = dialogId;
     }
 
@@ -49,11 +52,11 @@ public class Dialog {
         CreationDate = creationDate;
     }
 
-    public Long getCreatorId() {
+    public Integer getCreatorId() {
         return CreatorId;
     }
 
-    public void setCreatorId(Long creatorId) {
+    public void setCreatorId(Integer creatorId) {
         CreatorId = creatorId;
     }
 }
