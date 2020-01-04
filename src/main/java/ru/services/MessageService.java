@@ -9,7 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class MessegeService {
+public class MessageService {
     @Autowired
     private MessageRepostory messageRepostory;
 

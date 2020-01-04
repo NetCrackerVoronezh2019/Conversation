@@ -6,55 +6,60 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.domen.Dialog;
 import ru.domen.Message;
-import ru.domen.User;
 import ru.domen.UserDialog;
-import ru.repos.DialogRepository;
-import ru.repos.MessageRepostory;
-import ru.repos.UserDialogRepository;
-import ru.repos.UserRepository;
+import ru.services.DialogService;
+import ru.services.MessageService;
+import ru.services.UserDialogService;
+import ru.services.UserService;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class DialogController {
 
     @Autowired
-    private DialogRepository dialogRepository;
+    private DialogService dialogService;
     @Autowired
-    private MessageRepostory messageRepostory;
+    private MessageService messageService;
     @Autowired
-    private UserDialogRepository userDialogRepository;
+    private UserDialogService userDialogService;
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    @RequestMapping("/Dialogs")
-    public String Dialogs(Model model, @RequestParam(name ="userId",required=true) Integer userId) {
-        model.addAttribute("name",userRepository.findById(userId).get().getName());
-        return "Dialogs";
+    @CrossOrigin(origins="http://localhost:4200")
+    @GetMapping("/Dialogs")
+    public List<Dialog> Dialogs(Model model, @RequestParam(name ="userId") Integer userId) {
+        return userDialogService.getByUserId(userId).stream().map(UserDialog::getDialogId).map(di -> dialogService.getDialogById(di)).collect(Collectors.toList());
     }
 
+    @CrossOrigin(origins="http://localhost:4200")
     @GetMapping("/chat/{dialogId}/massages")
     public String chatMassages(@PathVariable Integer dialogId) {
-        return messageRepostory.findByDialogIdOrderByDate(dialogId).stream().
+        return messageService.getMessageByDialogId(dialogId).stream().
                 map(message -> message.getSenderId()+ ':' + message.getText()+ ':' + message.getDate()).toString();
     }
 
+    @CrossOrigin(origins="http://localhost:4200")
     @GetMapping("/chat/{dialogId}/users")
     public String chatUsers(@PathVariable Integer dialogId) {
-        return userDialogRepository.findByDialogIdOrderByUserId(dialogId).stream().
+        return userDialogService.getByDialogId(dialogId).stream().
                 map(UserDialog::getUserId).
-                map(userId -> userRepository.findById(userId).get()).toString();
+                map(userId -> userService.getUserById(userId)).toString();
     }
 
+    @CrossOrigin(origins="http://localhost:4200")
     @PostMapping("/sendMassage")
     public void sendMassage(@RequestParam Integer dialogId, @RequestParam Integer userId,@RequestParam String text) {
         Message message = new Message(text,new Date(),dialogId,userId);
-        messageRepostory.save(message);
+        messageService.addMessage(message);
     }
 
+    @CrossOrigin(origins="http://localhost:4200")
     @PostMapping("/chatCreate/")
     public void createDialog(@RequestParam Integer userId, @RequestParam String name) {
         Dialog dialog = new Dialog(name, new Date(), userId);
-        dialogRepository.save(dialog);
+        dialogService.addDialog(dialog);
     }
 }
