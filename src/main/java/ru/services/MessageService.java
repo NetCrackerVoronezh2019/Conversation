@@ -22,9 +22,4 @@ public class MessageService {
     public void deleteMassageById(Integer id) {
         messageRepostory.deleteById(id);
     }
-
-    @Transactional
-    public List<Message> getMessageByDialogId(Integer id) {
-        return messageRepostory.findByDialogIdOrderByDate(id);
-    }
 }

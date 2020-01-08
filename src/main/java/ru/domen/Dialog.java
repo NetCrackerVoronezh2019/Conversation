@@ -1,7 +1,10 @@
 package ru.domen;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Dialogs")
@@ -18,6 +21,21 @@ public class Dialog {
     private Date CreationDate;
     @Column(name="CreatorID")
     private Integer CreatorId;
+    @ManyToMany(mappedBy = "dialogs")
+    private List<User> users;
+
+    @OneToMany(cascade = CascadeType.ALL,
+        fetch = FetchType.EAGER,
+        mappedBy = "dialog")
+    private Set<Message> messages;
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
     public Dialog(String name, Date creationDate, Integer creatorId) {
         this.name = name;

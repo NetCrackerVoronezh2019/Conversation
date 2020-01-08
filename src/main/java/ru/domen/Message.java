@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Massages")
+@Table(name = "messages")
 public class Message {
 
     @Id
@@ -16,19 +16,39 @@ public class Message {
     @Column(name="DATEOFSENDING")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @Column(name="DIALOGID")
-    private Integer dialogId;
-    @Column(name="senderID")
-    private Integer senderId;
-    @Column(name="isModificated")
-    private boolean isModificated;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "dialogId")
+    private Dialog dialog;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId")
+    private User sender;
+    @Column(name="isModified")
+    private boolean isModified;
 
-    public Message(String text, Date date, Integer dialogId, Integer senderId) {
+    public Message(String text, Dialog dialog, User sender) {
         this.text = text;
-        this.date = date;
-        this.dialogId = dialogId;
-        this.senderId = senderId;
-        this.isModificated = false;
+        this.date = new Date();
+        this.dialog = dialog;
+        this.sender = sender;
+        isModified = false;
+    }
+
+    public Dialog getDialog() {
+        return dialog;
+    }
+
+    public void setDialog(Dialog dialog) {
+        this.dialog = dialog;
+    }
+
+
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
     public Message() {
@@ -58,27 +78,11 @@ public class Message {
         this.date = date;
     }
 
-    public Integer getDialogId() {
-        return dialogId;
+    public boolean isModified() {
+        return isModified;
     }
 
-    public void setDialogId(Integer dialogId) {
-        this.dialogId = dialogId;
-    }
-
-    public Integer getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(Integer senderId) {
-        this.senderId = senderId;
-    }
-
-    public boolean isModificated() {
-        return isModificated;
-    }
-
-    public void setModificated(boolean modificated) {
-        isModificated = modificated;
+    public void setModified(boolean modified) {
+        isModified = modified;
     }
 }
