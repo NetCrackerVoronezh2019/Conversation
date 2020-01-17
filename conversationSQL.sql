@@ -1,35 +1,10 @@
-CREATE TABLE DIALOGS
-(
-	dialogID SERIAL PRIMARY KEY,
-	name CHARACTER VARYING(30) UNIQUE  NOT NULL,
-	CreationDate DATE,
-	CreatorID SERIAL
-);
-
-CREATE TABLE Massages
-(
-	MESSAGEID SERIAL PRIMARY KEY,
-	TEXT CHARACTER VARYING(250) UNIQUE  NOT NULL,
-	DATEOFSENDING DATE,
-	DIALOGID SERIAL,
-	senderID SERIAL,
-	isModificated BOOLEAN
-);
-
-CREATE TABLE Users
-(
-	USERID SERIAL PRIMARY KEY,
-	Name CHARACTER VARYING(20) UNIQUE  NOT NULL,
-	status CHARACTER VARYING(20),
-	roleName CHARACTER VARYING(20)
-);
-
-CREATE TABLE UserDialog
-(
-	USERID SERIAL,
-	DIALOGID SERIAL,
-	PRIMARY KEY(USERID,DIALOGID)
-);
-
-INSERT into Users values (0, 'Migor', '----', 'Admin');
-INSERT into Users values (1, 'Armen', '----', 'Admin');
+INSERT into Users values (1, 'Migor', '----', 'Admin');
+INSERT into Users values (2, 'Armen', '----', 'Admin');
+INSERT into Dialogs values (1, now(), 1, 'testchat1');
+INSERT into Dialogs values (2, now(), 1, 'testchat3');
+insert into user_dialog values (1,1);
+insert into user_dialog values (1,2);
+insert into user_dialog values (2,1);
+insert into user_dialog values (2,2);
+insert into messages values (1,now(),false,'test Message from Migor',1,1);
+insert into messages values (1,now(),false,'test Message from Armen',1,2);

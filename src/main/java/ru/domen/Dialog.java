@@ -1,10 +1,12 @@
 package ru.domen;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.services.UserService;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "Dialogs")
@@ -16,18 +18,30 @@ public class Dialog {
     private Integer dialogId;
     @Column(name="name")
     private String name;
-    @Column(name="CreationDate")
+    @Column(name="creationDate")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date CreationDate;
+    private Date creationDate;
     @Column(name="CreatorID")
-    private Integer CreatorId;
-    @ManyToMany(mappedBy = "dialogs")
-    private List<User> users;
+    private Integer creatorId;
+
+    @ManyToMany
+    @JoinTable(name = "UserDialog",
+            joinColumns = @JoinColumn(name = "dialogId"),
+            inverseJoinColumns = @JoinColumn(name = "userId"))
+    private List<User> users = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
         fetch = FetchType.EAGER,
         mappedBy = "dialog")
-    private Set<Message> messages;
+    private List<Message> messages = new ArrayList<>();
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
 
     public List<User> getUsers() {
         return users;
@@ -39,8 +53,8 @@ public class Dialog {
 
     public Dialog(String name, Date creationDate, Integer creatorId) {
         this.name = name;
-        CreationDate = creationDate;
-        CreatorId = creatorId;
+        this.creationDate = creationDate;
+        this.creatorId = creatorId;
     }
 
     public Dialog() {
@@ -63,18 +77,18 @@ public class Dialog {
     }
 
     public Date getCreationDate() {
-        return CreationDate;
+        return creationDate;
     }
 
     public void setCreationDate(Date creationDate) {
-        CreationDate = creationDate;
+        this.creationDate = creationDate;
     }
 
     public Integer getCreatorId() {
-        return CreatorId;
+        return creatorId;
     }
 
     public void setCreatorId(Integer creatorId) {
-        CreatorId = creatorId;
+        this.creatorId = creatorId;
     }
 }

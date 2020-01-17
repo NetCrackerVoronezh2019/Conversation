@@ -2,8 +2,8 @@ package ru.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.domen.User;
-import ru.domen.Dialog;
+import ru.DTO.DialogDTO;
+import ru.DTO.UserDTO;
 import ru.services.UserService;
 
 import java.util.List;
@@ -15,12 +15,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/getUser")
-    public User getUser(@RequestParam(name = "userId") Integer userId){
-        return userService.getUserById(userId);
+    public UserDTO getUser(@RequestParam(name = "userId") Integer userId){
+        return userService.getUserDTOById(userId);
     }
 
     @GetMapping("/getUserDialogs")
-    public List<Dialog> getDialogs(Integer userId) {
-        return userService.getUserById(userId).getDialogs();
+    public List<DialogDTO> getDialogs(Integer userId) {
+        final List<DialogDTO> dialogs = userService.getUserDTOById(userId).getDialogs();
+        return dialogs;
     }
 }

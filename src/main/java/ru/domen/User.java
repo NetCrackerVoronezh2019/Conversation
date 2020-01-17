@@ -1,8 +1,8 @@
 package ru.domen;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -10,26 +10,20 @@ public class User {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="userid")
-    private Integer UserId;
+    private Integer userId;
     @Column(name="name")
     private String name;
     @Column(name="status")
     private String status;
     @Column(name="rolename")
     private String roleName;
-
-    @ManyToMany
-    @JoinTable(name = "UserDialog",
-            joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "dialogId"))
-    private List<Dialog> dialogs;
-
+    @ManyToMany(mappedBy = "users")
+    private List<Dialog> dialogs = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "sender")
-    private Set<Message> messages;
+    private List<Message> messages = new ArrayList<>();
 
 
 
@@ -44,11 +38,11 @@ public class User {
         this.dialogs = dialogs;
     }
 
-    public Set<Message> getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(Set<Message> messages) {
+    public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
 
@@ -59,11 +53,11 @@ public class User {
     }
 
     public Integer getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Integer userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public String getName() {

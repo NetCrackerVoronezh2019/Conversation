@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 @Transactional
 public interface MessageRepostory extends CrudRepository<Message,Integer> {
+
+    public List<Message> findByDialogDialogId(Integer dialogId);
 }
