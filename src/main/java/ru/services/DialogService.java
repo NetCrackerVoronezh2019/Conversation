@@ -9,6 +9,7 @@ import ru.repos.DialogRepository;
 import ru.repos.UserRepository;
 
 import javax.transaction.Transactional;
+import java.util.stream.Collectors;
 
 @Service
 public class DialogService {
@@ -45,4 +46,8 @@ public class DialogService {
         dialogRepository.save(dialog);
     }
 
+    public void deleteUserFromDialog(Integer userId,Dialog dialog){
+        dialog.setUsers(dialog.getUsers().stream().filter(user -> (user.getUserId() != userId)).collect(Collectors.toList()));
+        dialogRepository.save(dialog);
+    }
 }

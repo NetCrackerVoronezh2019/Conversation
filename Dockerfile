@@ -1,6 +1,7 @@
 FROM openjdk:8-jdk-alpine
 VOLUME /tmp
 EXPOSE 8080
-ARG JAR_FILE=target/ConversationMicroservice-1.0-SNAPSHOT.jar
-ADD ${JAR_FILE} ConversationMicroservice.jar
-ENTRYPOINT ["java","-jar","ConversationMicroservice.jar"]
+RUN mkdir -p /app/
+RUN mkdir -p /app/logs/
+ADD ADD target/ConversationMicroservice-1.0-SNAPSHOT.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=container", "-jar", "/app/app.jar"]

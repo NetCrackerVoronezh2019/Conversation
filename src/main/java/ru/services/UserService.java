@@ -33,4 +33,9 @@ public class UserService {
     public void deleteUserById(Integer id) {
         userRepository.deleteById(id);
     }
+
+    @Transactional
+    public User getUserByName(String name) {
+        return userRepository.findByName(name);
+    }
 }

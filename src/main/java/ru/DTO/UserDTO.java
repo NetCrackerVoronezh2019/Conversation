@@ -10,16 +10,12 @@ import ru.domen.User;
 public class UserDTO {
     private Integer userId;
     private String name;
-    private String status;
-    private String roleName;
     private List<DialogDTO> dialogs;
     private List<MessageDTO> messages;
 
     public UserDTO(User user) {
         this.userId = user.getUserId();
         this.name = user.getName();
-        this.status = user.getStatus();
-        this.roleName = user.getRoleName();
     }
 
     public static UserDTO getUserDTO(User user) {
@@ -54,22 +50,6 @@ public class UserDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
     }
 
     public List<DialogDTO> getDialogs() {

@@ -14,10 +14,6 @@ public class User {
     private Integer userId;
     @Column(name="name")
     private String name;
-    @Column(name="status")
-    private String status;
-    @Column(name="rolename")
-    private String roleName;
     @ManyToMany(mappedBy = "users")
     private List<Dialog> dialogs = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL,
@@ -26,6 +22,10 @@ public class User {
     private List<Message> messages = new ArrayList<>();
 
 
+    public User(Integer userId, String name) {
+        this.userId = userId;
+        this.name = name;
+    }
 
     public User() {
     }
@@ -48,8 +48,6 @@ public class User {
 
     public User(String name, String status, String roleName) {
         this.name = name;
-        this.status = status;
-        this.roleName = roleName;
     }
 
     public Integer getUserId() {
@@ -68,19 +66,4 @@ public class User {
         this.name = name;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
 }

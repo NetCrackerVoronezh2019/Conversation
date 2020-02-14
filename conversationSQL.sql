@@ -1,5 +1,5 @@
-INSERT into Users values (1, 'Migor', '----', 'Admin');
-INSERT into Users values (2, 'Armen', '----', 'Admin');
+INSERT into Users values (1, 'Migor');
+INSERT into Users values (2, 'Armen');
 INSERT into Dialogs values (1, now(), 1, 'testchat1');
 INSERT into Dialogs values (2, now(), 1, 'testchat3');
 insert into user_dialog values (1,1);
