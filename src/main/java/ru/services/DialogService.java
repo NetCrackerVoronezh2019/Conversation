@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.DTO.DialogDTO;
 import ru.domen.Dialog;
+import ru.domen.Message;
 import ru.domen.User;
 import ru.repos.DialogRepository;
+import ru.repos.MessageRepostory;
 import ru.repos.UserRepository;
 
 import javax.transaction.Transactional;
@@ -18,6 +20,8 @@ public class DialogService {
     private DialogRepository dialogRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MessageRepostory messageRepository;
 
     @Transactional
     public DialogDTO getDialogDTOById(Integer id){

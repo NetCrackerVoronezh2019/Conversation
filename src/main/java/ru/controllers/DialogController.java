@@ -15,11 +15,12 @@ import ru.services.DialogService;
 import ru.services.MessageService;
 import ru.services.UserService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins="http://localhost:4200")
+
 @RestController
 public class DialogController {
 
@@ -32,29 +33,34 @@ public class DialogController {
     @Autowired
     private SimpMessagingTemplate template;
 
-    @PostMapping("/dialogCreate")
+    @PostMapping("/dialogCreate/")
+    @CrossOrigin(origins="http://localhost:8080")
     public void createDialog(@RequestBody Dialog dialog) {
         dialog.setCreationDate(new Date());
         dialogService.addDialog(dialog);
     }
 
-    @GetMapping("/getDialogMembers")
-    public List<UserDTO> getDialogs(@RequestParam(name = "dialogId") Integer dialogId) {
+    @GetMapping("/getDialogMembers/")
+    @CrossOrigin(origins="http://localhost:8080")
+    public List<UserDTO> getDialogs(@RequestParam(name = "dialogId") Integer dialogId,@RequestParam Integer userId) {
         final List<UserDTO> users = dialogService.getDialogDTOById(dialogId).getUsers();
         return users;
     }
 
-    @GetMapping("/getDialogMessages")
-    public List<MessageDTO> getMessages(@RequestParam(name = "dialogId") Integer dialogId) {
+    @GetMapping("/getDialogMessages/")
+    @CrossOrigin(origins="http://localhost:8080")
+    public List<MessageDTO> getMessages(@RequestParam(name = "dialogId") Integer dialogId, @RequestParam Integer userId) {
         return messageService.getDialogMessages(dialogId);
     }
 
-    @GetMapping("/getDialog")
-    public DialogDTO getDialogInfo(@RequestParam(name = "dialogId") Integer dialogId) {
+    @GetMapping("/getDialog/")
+    @CrossOrigin(origins="http://localhost:8080")
+    public DialogDTO getDialogInfo(@RequestParam(name = "dialogId") Integer dialogId,@RequestParam Integer userId) {
         return dialogService.getDialogDTOById(dialogId);
     }
 
-    @MessageMapping("/sendMessage")
+    @MessageMapping("/sendMessage/")
+    @CrossOrigin(origins="http://localhost:4200")
     @SendTo("/dialog/{messageDTO.getDialog}")
     public void sendMessage(MessageDTO messageDTO) {
         Message message = new Message();
@@ -67,7 +73,8 @@ public class DialogController {
         template.convertAndSend("/dialog/" + messageDTO.getDialog(),MessageDTO.getMessageDTO(message));
     }
 
-    @DeleteMapping("/liveDialog")
+    @CrossOrigin(origins="http://localhost:8080")
+    @DeleteMapping("/liveDialog/")
     public void liveDialog(@RequestParam(name = "userId") Integer userId,@RequestParam(name = "dialogId") Integer dialogId) {
         Dialog dialog = dialogService.getDialogById(dialogId);
         dialogService.deleteUserFromDialog(userId,dialog);
@@ -76,13 +83,16 @@ public class DialogController {
         }
     }
 
-    @DeleteMapping("/deleteDialog")
+    @CrossOrigin(origins="http://localhost:8080")
+    @DeleteMapping("/deleteDialog/")
     public void deleteDialog(@RequestParam(name = "dialogId") Integer dialogId) {
+        messageService.deleteMessageByDialogId(dialogId);
         dialogService.deleteDialogById(dialogId);
     }
 
-    @GetMapping("/addUserInDialog")
-    public void addUserInDialog(@RequestParam(name = "userName" ) String userName, @RequestParam(name = "dialogId") Integer dialogId) {
+    @CrossOrigin(origins="http://localhost:8080")
+    @GetMapping("/addUserInDialog/")
+    public void addUserInDialog(@RequestParam(name = "userName" ) String userName, @RequestParam(name = "dialogId") Integer dialogId, @RequestParam Integer adderId) {
         User user = userService.getUserByName(userName);
         if (user != null) {
             Dialog dialog = dialogService.getDialogById(dialogId);

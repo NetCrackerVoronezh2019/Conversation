@@ -25,6 +25,11 @@ public class MessageService {
         messageRepostory.deleteById(id);
     }
 
+    @Transactional
+    public void deleteMessageByDialogId(Integer dialogId) {
+        messageRepostory.deleteByDialogDialogId(dialogId);
+    }
+
     public List<MessageDTO> getDialogMessages(Integer dialogId) {
         return messageRepostory.findByDialogDialogId(dialogId).stream().map(message -> MessageDTO.getMessageDTO(message)).collect(Collectors.toList());
     }

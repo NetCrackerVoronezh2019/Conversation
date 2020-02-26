@@ -10,14 +10,15 @@ import ru.services.UserService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:8080")
 public class UserController {
     @Autowired
     private UserService userService;
 
     @GetMapping("/getUser")
     public UserDTO getUser(@RequestParam(name = "userId") Integer userId){
-        return userService.getUserDTOById(userId);
+        UserDTO userDTO = userService.getUserDTOById(userId);
+        return userDTO;
     }
 
 
@@ -27,7 +28,7 @@ public class UserController {
         return dialogs;
     }
 
-    @PostMapping("/CreateUser")
+    @PostMapping("/createUser")
     public void createUser(@RequestBody User user) {
         userService.addUser(user);
     }
