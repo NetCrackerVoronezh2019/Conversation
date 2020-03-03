@@ -12,5 +12,5 @@ import java.util.List;
 public interface NotificationRepository extends CrudRepository<Notification,Integer> {
 
     List<Notification> findByUserUserId(Integer userId);
-    List<Notification> findByMesageMessageId(Integer messageId);
+    List<Notification> findByMessageMessageId(Integer messageId);
 }

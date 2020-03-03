@@ -40,6 +40,6 @@ public class NotificationService {
         return notificationRepository.findByUserUserId(userId);
     }
     public List<Notification> getMessageNotifications(Integer userId) {
-        return notificationRepository.findByMesageMessageId(userId);
+        return notificationRepository.findByMessageMessageId(userId);
     }
 }
