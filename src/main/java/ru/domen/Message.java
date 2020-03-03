@@ -1,7 +1,9 @@
 package ru.domen;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "messages")
@@ -16,6 +18,10 @@ public class Message {
     @Column(name="DATEOFSENDING")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            mappedBy = "message")
+    private List<Notification> notifications = new ArrayList<>();
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dialogId")
     private Dialog dialog;
@@ -31,6 +37,14 @@ public class Message {
         this.dialog = dialog;
         this.sender = sender;
         isModified = false;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     public Dialog getDialog() {

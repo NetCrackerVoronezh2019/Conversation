@@ -20,7 +20,10 @@ public class User {
             fetch = FetchType.EAGER,
             mappedBy = "sender")
     private List<Message> messages = new ArrayList<>();
-
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            mappedBy = "user")
+    private List<Notification> notifications = new ArrayList<>();
 
     public User(Integer userId, String name) {
         this.userId = userId;
@@ -28,6 +31,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     public List<Dialog> getDialogs() {

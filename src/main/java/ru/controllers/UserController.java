@@ -10,7 +10,7 @@ import ru.services.UserService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:9080")
 public class UserController {
     @Autowired
     private UserService userService;
