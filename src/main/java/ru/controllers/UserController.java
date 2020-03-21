@@ -32,4 +32,5 @@ public class UserController {
     public void createUser(@RequestBody User user) {
         userService.addUser(user);
     }
+
 }

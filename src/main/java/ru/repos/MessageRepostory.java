@@ -16,7 +16,6 @@ public interface MessageRepostory extends CrudRepository<Message,Integer> {
 
     public List<Message> findByDialogDialogId(Integer dialogId);
 
-    @Transactional
     @Modifying
     @Query("DELETE FROM Message m WHERE m.dialog.dialogId =:dialogId")
     public void deleteByDialogDialogId(@Param("dialogId") Integer dialogId);

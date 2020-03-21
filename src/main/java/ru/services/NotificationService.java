@@ -36,6 +36,11 @@ public class NotificationService {
         return notifications;
     }
 
+    @Transactional
+    public void deleteUserNotification(Integer userId, Integer dialogId) {
+        notificationRepository.deleteByMessageDialogDialogIdAndUserUserId(dialogId,userId);
+    }
+
     public List<Notification> getUserNotifications(Integer userId) {
         return notificationRepository.findByUserUserId(userId);
     }
