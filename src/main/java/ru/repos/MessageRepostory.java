@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 public interface MessageRepostory extends CrudRepository<Message,Integer> {
 
-    public List<Message> findByDialogDialogId(Integer dialogId);
+    public List<Message> findByDialogDialogIdOrderByDate(Integer dialogId);
 
     @Modifying
     @Query("DELETE FROM Message m WHERE m.dialog.dialogId =:dialogId")

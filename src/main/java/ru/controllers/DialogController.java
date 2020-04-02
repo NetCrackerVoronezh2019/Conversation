@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:9080")
 public class DialogController {
 
     @Autowired
@@ -33,32 +34,27 @@ public class DialogController {
     private NotificationService notificationService;
 
     @PostMapping("/dialogCreate/")
-    @CrossOrigin(origins="http://localhost:9080")
     public void createDialog(@RequestBody Dialog dialog) {
         dialog.setCreationDate(new Date());
         dialogService.addDialog(dialog);
     }
 
     @GetMapping("/getDialogMembers/")
-    @CrossOrigin(origins="http://localhost:9080")
     public List<UserDTO> getDialogs(@RequestParam(name = "dialogId") Integer dialogId,@RequestParam Integer userId) {
         final List<UserDTO> users = dialogService.getDialogDTOById(dialogId).getUsers();
         return users;
     }
 
     @GetMapping("/getDialogMessages/")
-    @CrossOrigin(origins="http://localhost:9080")
     public List<MessageDTO> getMessages(@RequestParam(name = "dialogId") Integer dialogId, @RequestParam Integer userId) {
         return messageService.getDialogMessages(dialogId);
     }
 
     @GetMapping("/getDialog/")
-    @CrossOrigin(origins="http://localhost:9080")
     public DialogDTO getDialogInfo(@RequestParam(name = "dialogId") Integer dialogId,@RequestParam Integer userId) {
         return dialogService.getDialogDTOById(dialogId);
     }
 
-    @CrossOrigin(origins="http://localhost:9080")
     @DeleteMapping("/liveDialog/")
     public void liveDialog(@RequestParam(name = "userId") Integer userId,@RequestParam(name = "dialogId") Integer dialogId) {
         Dialog dialog = dialogService.getDialogById(dialogId);
@@ -68,14 +64,12 @@ public class DialogController {
         }
     }
 
-    @CrossOrigin(origins="http://localhost:9080")
     @DeleteMapping("/deleteDialog/")
     public void deleteDialog(@RequestParam(name = "dialogId") Integer dialogId) {
         messageService.deleteMessageByDialogId(dialogId);
         dialogService.deleteDialogById(dialogId);
     }
 
-    @CrossOrigin(origins="http://localhost:9080")
     @GetMapping("/addUserInDialog/")
     public void addUserInDialog(@RequestParam(name = "userName" ) String userName, @RequestParam(name = "dialogId") Integer dialogId, @RequestParam Integer adderId) {
         User user = userService.getUserByName(userName);
@@ -87,7 +81,7 @@ public class DialogController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:9080")
+
     @PostMapping("/sendMessage/")
     public MessageDTO sendMessage(@RequestBody MessageDTO messageDTO) {
         Message message = new Message();

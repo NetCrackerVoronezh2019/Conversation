@@ -34,9 +34,9 @@ public class DialogService {
     }
 
     @Transactional
-    public void addDialog(Dialog dialog) {
+    public Dialog addDialog(Dialog dialog) {
         dialog.getUsers().add(userRepository.findById(dialog.getCreatorId()).get());
-        dialogRepository.save(dialog);
+        return dialogRepository.save(dialog);
     }
 
     @Transactional

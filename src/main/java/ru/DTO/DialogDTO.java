@@ -1,13 +1,16 @@
 package ru.DTO;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.domen.Dialog;
 import ru.domen.Message;
 import ru.domen.User;
+import ru.services.MessageService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class DialogDTO {
@@ -17,6 +20,24 @@ public class DialogDTO {
     private Integer creatorId;
     private List<UserDTO> users;
     private List<MessageDTO> messages;
+    private Long countNotification;
+    private Date lastMessageDate;
+
+    public Long getCountNotification() {
+        return countNotification;
+    }
+
+    public void setCountNotification(Long countNotification) {
+        this.countNotification = countNotification;
+    }
+
+    public Date getLastMessageDate() {
+        return lastMessageDate;
+    }
+
+    public void setLastMessageDate(Date lastMessageDate) {
+        this.lastMessageDate = lastMessageDate;
+    }
 
     public DialogDTO(Dialog dialog) {
         this.dialogId = dialog.getDialogId();
@@ -29,6 +50,11 @@ public class DialogDTO {
         DialogDTO dialogDTO = new DialogDTO(dialog);
         dialogDTO.users = new ArrayList<>();
         dialogDTO.messages = new ArrayList<>();
+        if (!dialog.getMessages().isEmpty()) {
+            dialogDTO.lastMessageDate = dialog.getMessages().stream().sorted((message1, message2) -> {
+                return -1 * message1.getDate().compareTo(message2.getDate());
+            }).collect(Collectors.toList()).get(0).getDate();
+        }
         for (User user:
                 dialog.getUsers()) {
             dialogDTO.users.add(new UserDTO(user));

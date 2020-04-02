@@ -31,6 +31,6 @@ public class MessageService {
     }
 
     public List<MessageDTO> getDialogMessages(Integer dialogId) {
-        return messageRepostory.findByDialogDialogId(dialogId).stream().map(message -> MessageDTO.getMessageDTO(message)).collect(Collectors.toList());
+        return messageRepostory.findByDialogDialogIdOrderByDate(dialogId).stream().map(message -> MessageDTO.getMessageDTO(message)).collect(Collectors.toList());
     }
 }
