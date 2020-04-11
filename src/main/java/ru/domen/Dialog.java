@@ -31,9 +31,21 @@ public class Dialog {
     private List<User> users = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
-        fetch = FetchType.EAGER,
+        fetch = FetchType.LAZY,
         mappedBy = "dialog")
     private List<Message> messages = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "typeId")
+    private DialogType type;
+
+    public DialogType getType() {
+        return type;
+    }
+
+    public void setType(DialogType type) {
+        this.type = type;
+    }
 
     public List<Message> getMessages() {
         return messages;

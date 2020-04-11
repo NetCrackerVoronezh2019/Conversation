@@ -17,11 +17,11 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Dialog> dialogs = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             mappedBy = "sender")
     private List<Message> messages = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             mappedBy = "user")
     private List<Notification> notifications = new ArrayList<>();
 

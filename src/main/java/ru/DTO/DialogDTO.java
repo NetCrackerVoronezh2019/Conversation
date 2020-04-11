@@ -22,6 +22,7 @@ public class DialogDTO {
     private List<MessageDTO> messages;
     private Long countNotification;
     private Date lastMessageDate;
+    private String type;
 
     public Long getCountNotification() {
         return countNotification;
@@ -44,6 +45,7 @@ public class DialogDTO {
         this.name = dialog.getName();
         creationDate = dialog.getCreationDate();
         creatorId = dialog.getCreatorId();
+        type = dialog.getType().getTypeName();
     }
 
     public static DialogDTO getDialogDTO(Dialog dialog) {
@@ -67,6 +69,14 @@ public class DialogDTO {
     }
 
     public DialogDTO() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Integer getDialogId() {

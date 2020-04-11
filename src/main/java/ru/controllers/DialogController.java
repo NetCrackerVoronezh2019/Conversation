@@ -8,17 +8,10 @@ import ru.DTO.UserDTO;
 import ru.domen.Dialog;
 import ru.domen.Message;
 import ru.domen.User;
-import ru.services.DialogService;
-import ru.services.MessageService;
-import ru.services.NotificationService;
-import ru.services.UserService;
+import ru.services.*;
 
-import javax.management.Notification;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @RestController
 @CrossOrigin(origins = "http://localhost:9080")
@@ -32,9 +25,15 @@ public class DialogController {
     private UserService userService;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private DialogTypeService dialogTypeService;
 
     @PostMapping("/dialogCreate/")
-    public void createDialog(@RequestBody Dialog dialog) {
+    public void createDialog(@RequestBody DialogDTO dialogDTO) {
+        Dialog dialog = new Dialog();
+        dialog.setName(dialogDTO.getName());
+        dialog.setCreatorId(dialogDTO.getCreatorId());
+        dialog.setType(dialogTypeService.getDialogTypeByName(dialogDTO.getType()));
         dialog.setCreationDate(new Date());
         dialogService.addDialog(dialog);
     }

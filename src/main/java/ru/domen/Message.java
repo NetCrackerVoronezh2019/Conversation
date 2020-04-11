@@ -19,7 +19,7 @@ public class Message {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             mappedBy = "message")
     private List<Notification> notifications = new ArrayList<>();
     @ManyToOne(fetch = FetchType.EAGER)
