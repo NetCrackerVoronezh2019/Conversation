@@ -71,8 +71,8 @@ public class DialogController {
     }
 
     @GetMapping("/addUserInDialog/")
-    public void addUserInDialog(@RequestParam(name = "userName" ) String userName, @RequestParam(name = "dialogId") Integer dialogId, @RequestParam Integer adderId) {
-        User user = userService.getUserByName(userName);
+    public void addUserInDialog(@RequestParam(name = "userId" ) Integer userId, @RequestParam(name = "dialogId") Integer dialogId, @RequestParam Integer adderId) {
+        User user = userService.getUserById(userId);
         if (user != null) {
             Dialog dialog = dialogService.getDialogById(dialogId);
             if (!dialog.getUsers().contains(user)) {
