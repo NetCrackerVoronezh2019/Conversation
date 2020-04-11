@@ -1,7 +1,6 @@
 package ru.domen;
 
 import javax.persistence.*;
-import java.awt.Dialog;
 import java.util.ArrayList;
 import java.util.List;
 
