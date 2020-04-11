@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.domen.Dialog;
 import ru.domen.User;
 import ru.services.DialogService;
+import ru.services.DialogTypeService;
 import ru.services.UserService;
 
 import java.util.Date;
@@ -17,6 +18,8 @@ public class UserAndGroupController {
     private UserService userService;
     @Autowired
     private DialogService dialogService;
+    @Autowired
+    private DialogTypeService dialogTypeService;
     @PostMapping("user/createDialog")
     public Integer createDialog(@RequestParam Integer creatorId,@RequestParam Integer userId) {
         Dialog dialog =new Dialog();
@@ -35,6 +38,7 @@ public class UserAndGroupController {
         dialog.setCreationDate(new Date());
         dialog.setCreatorId(creatorId);
         dialog.setName(name);
+        dialog.setType(dialogTypeService.getDialogTypeByName("group"));
         return dialogService.addDialog(dialog).getDialogId();
     }
 
