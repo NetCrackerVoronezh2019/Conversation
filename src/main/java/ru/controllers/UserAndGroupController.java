@@ -7,6 +7,7 @@ import ru.domen.Dialog;
 import ru.domen.User;
 import ru.services.DialogService;
 import ru.services.DialogTypeService;
+import ru.services.MessageService;
 import ru.services.UserService;
 
 import java.util.Date;
@@ -20,6 +21,9 @@ public class UserAndGroupController {
     private DialogService dialogService;
     @Autowired
     private DialogTypeService dialogTypeService;
+    @Autowired
+    private MessageService messageService;
+
     @PostMapping("user/createDialog")
     public Integer createDialog(@RequestParam Integer creatorId,@RequestParam Integer userId) {
         Dialog dialog =new Dialog();
@@ -29,6 +33,7 @@ public class UserAndGroupController {
         User creator = userService.getUserById(creatorId);
         dialog.setName(user.getName() + " " + creator.getName());
         dialog.getUsers().add(userService.getUserById(userId));
+        dialog.setType(dialogTypeService.getDialogTypeByName("private"));
         return dialogService.addDialog(dialog).getDialogId();
     }
 
@@ -51,5 +56,11 @@ public class UserAndGroupController {
     public void liveDialog(@RequestParam(name = "userId") Integer userId,@RequestParam(name = "dialogId") Integer dialogId) {
         Dialog dialog = dialogService.getDialogById(dialogId);
         dialogService.deleteUserFromDialog(userId,dialog);
+    }
+
+    @DeleteMapping("/userAndGroup/deleteDialog/")
+    public void deleteDialog(@RequestParam(name = "dialogId") Integer dialogId) {
+        messageService.deleteMessageByDialogId(dialogId);
+        dialogService.deleteDialogById(dialogId);
     }
 }
