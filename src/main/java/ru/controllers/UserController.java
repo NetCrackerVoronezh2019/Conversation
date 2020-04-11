@@ -40,7 +40,10 @@ public class UserController {
     }
 
     @PostMapping("/createUser")
-    public void createUser(@RequestBody User user) {
+    public void createUser(@RequestBody UserDTO userDTO) {
+        User user = new User();
+        user.setName(userDTO.getName());
+        user.setUserId(userDTO.getUserId());
         userService.addUser(user);
     }
 
