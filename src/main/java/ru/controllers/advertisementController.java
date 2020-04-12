@@ -30,7 +30,7 @@ public class advertisementController {
         dialog.setName(advertisementName);
         dialog.getUsers().add(userService.getUserById(userId));
         dialog.setType(dialogTypeService.getDialogTypeByName("advertisement"));
-        return dialogService.addDialog(dialog).getDialogId();
+        return dialogService.saveDialog(dialog).getDialogId();
     }
 
     @DeleteMapping("/advertisement/deleteDialog/")

@@ -36,7 +36,7 @@ public class DialogController {
         dialog.setType(dialogTypeService.getDialogTypeByName(dialogDTO.getType()));
         dialog.setCreationDate(new Date());
         dialog.setType(dialogTypeService.getDialogTypeByName("public"));
-        dialogService.addDialog(dialog);
+        dialogService.saveDialog(dialog);
     }
 
     @GetMapping("/getDialogMembers/")

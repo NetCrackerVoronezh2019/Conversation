@@ -34,7 +34,7 @@ public class UserAndGroupController {
         dialog.setName(user.getName() + " " + creator.getName());
         dialog.getUsers().add(userService.getUserById(userId));
         dialog.setType(dialogTypeService.getDialogTypeByName("private"));
-        return dialogService.addDialog(dialog).getDialogId();
+        return dialogService.saveDialog(dialog).getDialogId();
     }
 
     @PostMapping("group/createDialog")
@@ -44,7 +44,14 @@ public class UserAndGroupController {
         dialog.setCreatorId(creatorId);
         dialog.setName(name);
         dialog.setType(dialogTypeService.getDialogTypeByName("group"));
-        return dialogService.addDialog(dialog).getDialogId();
+        return dialogService.saveDialog(dialog).getDialogId();
+    }
+
+    @PutMapping("group/settings")
+    public void groupRename(@RequestParam Integer dialogId, @RequestParam String groupName) {
+        Dialog dialog = dialogService.getDialogById(dialogId);
+        dialog.setName(groupName);
+        dialogService.saveDialog(dialog);
     }
 
     @PostMapping("group/subscribeDialog")
