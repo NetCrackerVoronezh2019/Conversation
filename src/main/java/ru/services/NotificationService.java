@@ -47,4 +47,11 @@ public class NotificationService {
     public List<Notification> getMessageNotifications(Integer userId) {
         return notificationRepository.findByMessageMessageId(userId);
     }
+
+
+    public List<Notification> getUserDialogNotifications(Integer userId, Integer dialogId) {
+        return notificationRepository.findByUserUserIdAndMessageDialogDialogId(userId,dialogId);
+    }
 }
+
+

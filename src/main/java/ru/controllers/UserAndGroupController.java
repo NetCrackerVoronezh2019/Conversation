@@ -11,6 +11,8 @@ import ru.services.MessageService;
 import ru.services.UserService;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8090")
@@ -26,13 +28,21 @@ public class UserAndGroupController {
 
     @PostMapping("user/createDialog")
     public Integer createDialog(@RequestParam Integer creatorId,@RequestParam Integer userId) {
+        User user = userService.getUserById(userId);
+        User creator = userService.getUserById(creatorId);
+        List<Dialog> dialogs = user.getDialogs().stream().filter(dialog -> dialog.getType().getTypeName().equals("private")).collect(Collectors.toList());
+        for (Dialog dialog :
+                dialogs) {
+            if (dialog.getUsers().contains(creator)) {
+                return dialog.getDialogId();
+            }
+        }
         Dialog dialog =new Dialog();
         dialog.setCreationDate(new Date());
         dialog.setCreatorId(creatorId);
-        User user = userService.getUserById(userId);
-        User creator = userService.getUserById(creatorId);
         dialog.setName(user.getName() + " " + creator.getName());
         dialog.getUsers().add(userService.getUserById(userId));
+        dialog.getUsers().add(creator);
         dialog.setType(dialogTypeService.getDialogTypeByName("private"));
         return dialogService.saveDialog(dialog).getDialogId();
     }

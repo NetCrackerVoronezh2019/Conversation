@@ -21,4 +21,6 @@ public interface NotificationRepository extends CrudRepository<Notification,Inte
     @Modifying
     @Query("DELETE FROM Notification N WHERE N.message.messageId in (select m.messageId from Message m where m.dialog.dialogId =:dialogId) and N.user.userId =:userId")
     void deleteByMessageDialogDialogIdAndUserUserId(@Param("dialogId")Integer dialogId,@Param("userId") Integer userId);
+
+    List<Notification> findByUserUserIdAndMessageDialogDialogId(Integer userId, Integer dialogId);
 }

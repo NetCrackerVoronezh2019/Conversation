@@ -5,12 +5,14 @@ import ru.domen.Notification;
 import ru.domen.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class NotificationDTO {
     private Integer notificationId;
     private Integer messageId;
-    private String userName;
+    private Integer userId;
     private String senderName;
     private Date date;
     private boolean isread;
@@ -38,16 +40,24 @@ public class NotificationDTO {
         notificationDTO.setMessageId(notification.getMessage().getMessageId());
         notificationDTO.setNotificationId(notification.getNotificationId());
         notificationDTO.setSenderName(notification.getMessage().getSender().getName());
-        notificationDTO.setUserName(notification.getUser().getName());
+        notificationDTO.setUserId(notification.getUser().getUserId());
         return notificationDTO;
     }
 
-    public String getUserName() {
-        return userName;
+    public static List<NotificationDTO> getNotificationDTO(List<Notification> notifications) {
+        List<NotificationDTO> notificationDTOList = new ArrayList<>();
+        for (int i = 0; i < notifications.size(); i++) {
+            notificationDTOList.add(NotificationDTO.getNotificationDTO(notifications.get(i)));
+        }
+        return notificationDTOList;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getNotificationId() {

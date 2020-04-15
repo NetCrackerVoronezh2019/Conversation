@@ -12,7 +12,7 @@ import java.util.Date;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:1122")
-public class advertisementController {
+public class AdvertisementController {
     @Autowired
     private DialogService dialogService;
     @Autowired

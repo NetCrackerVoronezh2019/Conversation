@@ -8,6 +8,7 @@ import ru.services.MessageService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,9 +54,9 @@ public class DialogDTO {
         dialogDTO.users = new ArrayList<>();
         dialogDTO.messages = new ArrayList<>();
         if (!dialog.getMessages().isEmpty()) {
-            dialogDTO.lastMessageDate = dialog.getMessages().stream().sorted((message1, message2) -> {
-                return -1 * message1.getDate().compareTo(message2.getDate());
-            }).collect(Collectors.toList()).get(0).getDate();
+            dialogDTO.lastMessageDate = dialog.getMessages().stream().sorted(Comparator.comparing(Message::getDate).reversed()).collect(Collectors.toList()).get(0).getDate();
+        } else  {
+            dialogDTO.lastMessageDate = dialogDTO.creationDate;
         }
         for (User user:
                 dialog.getUsers()) {
