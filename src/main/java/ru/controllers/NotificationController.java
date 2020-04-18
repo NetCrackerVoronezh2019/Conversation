@@ -8,7 +8,9 @@ import ru.services.NotificationService;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:9080")
@@ -38,7 +40,7 @@ public class NotificationController {
 
     @GetMapping("notifications/getUserDialogNotifications")
     public List<NotificationDTO> getUserDialogNotifications(@RequestParam Integer userId, @RequestParam Integer dialogId) {
-        return NotificationDTO.getNotificationDTO(notificationService.getUserDialogNotifications(userId,dialogId));
+        return NotificationDTO.getNotificationDTO(notificationService.getUserDialogNotifications(userId,dialogId).stream().sorted(Comparator.comparing(Notification::getDate)).collect(Collectors.toList()));
     }
 
 }

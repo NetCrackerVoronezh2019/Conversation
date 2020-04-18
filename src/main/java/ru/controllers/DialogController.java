@@ -10,8 +10,10 @@ import ru.domen.Message;
 import ru.domen.User;
 import ru.services.*;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:9080")
@@ -47,12 +49,15 @@ public class DialogController {
 
     @GetMapping("/getDialogMessages/")
     public List<MessageDTO> getMessages(@RequestParam(name = "dialogId") Integer dialogId, @RequestParam Integer userId) {
-        return messageService.getDialogMessages(dialogId);
+        return messageService.getDialogMessages(dialogId).stream().sorted(Comparator.comparing(MessageDTO::getDate).reversed()).collect(Collectors.toList());
     }
 
     @GetMapping("/getDialog/")
     public DialogDTO getDialogInfo(@RequestParam(name = "dialogId") Integer dialogId,@RequestParam Integer userId) {
-        return dialogService.getDialogDTOById(dialogId);
+        DialogDTO dialog = dialogService.getDialogDTOById(dialogId);
+        User user = userService.getUserById(userId);
+        dialog.setCountNotification(user.getNotifications().stream().filter(notification -> notification.getMessage().getDialog().getDialogId() == dialogId).count());
+        return dialog;
     }
 
     @DeleteMapping("/liveDialog/")
