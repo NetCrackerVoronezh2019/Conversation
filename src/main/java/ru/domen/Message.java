@@ -30,6 +30,10 @@ public class Message {
     private User sender;
     @Column(name="isModified")
     private boolean isModified;
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "message")
+    private List<MessageFile> files = new ArrayList<>();
 
     public Message(String text, Dialog dialog, User sender) {
         this.text = text;
@@ -37,6 +41,14 @@ public class Message {
         this.dialog = dialog;
         this.sender = sender;
         isModified = false;
+    }
+
+    public List<MessageFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<MessageFile> files) {
+        this.files = files;
     }
 
     public List<Notification> getNotifications() {

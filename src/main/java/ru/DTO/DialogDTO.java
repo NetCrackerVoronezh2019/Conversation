@@ -24,6 +24,7 @@ public class DialogDTO {
     private Long countNotification;
     private Date lastMessageDate;
     private String type;
+    private String image;
 
     public Long getCountNotification() {
         return countNotification;
@@ -47,6 +48,7 @@ public class DialogDTO {
         creationDate = dialog.getCreationDate();
         creatorId = dialog.getCreatorId();
         type = dialog.getType().getTypeName();
+        this.image = dialog.getImage();
     }
 
     public static DialogDTO getDialogDTO(Dialog dialog) {
@@ -67,6 +69,14 @@ public class DialogDTO {
             dialogDTO.messages.add(new MessageDTO(message));
         }
         return dialogDTO;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public DialogDTO() {

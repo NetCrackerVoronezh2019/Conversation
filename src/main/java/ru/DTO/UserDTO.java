@@ -12,10 +12,12 @@ public class UserDTO {
     private String name;
     private List<DialogDTO> dialogs;
     private List<MessageDTO> messages;
+    private String image;
 
     public UserDTO(User user) {
         this.userId = user.getUserId();
         this.name = user.getName();
+        this.image = user.getImage();
     }
 
     public static UserDTO getUserDTO(User user) {
@@ -34,6 +36,14 @@ public class UserDTO {
     }
 
     public UserDTO() {
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Integer getUserId() {

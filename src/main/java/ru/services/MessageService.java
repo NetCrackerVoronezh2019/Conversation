@@ -16,8 +16,8 @@ public class MessageService {
     private MessageRepostory messageRepostory;
 
     @Transactional
-    public void addMessage(Message message) {
-        messageRepostory.save(message);
+    public Message addMessage(Message message) {
+        return messageRepostory.save(message);
     }
 
     @Transactional
@@ -32,5 +32,9 @@ public class MessageService {
 
     public List<MessageDTO> getDialogMessages(Integer dialogId) {
         return messageRepostory.findByDialogDialogIdOrderByDate(dialogId).stream().map(message -> MessageDTO.getMessageDTO(message)).collect(Collectors.toList());
+    }
+
+    public Message getById(Integer id) {
+        return messageRepostory.findById(id).get();
     }
 }

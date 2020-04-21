@@ -23,6 +23,8 @@ public class Dialog {
     private Date creationDate;
     @Column(name="CreatorID")
     private Integer creatorId;
+    @Column(name="image")
+    private String image;
 
     @ManyToMany
     @JoinTable(name = "UserDialog",
@@ -45,6 +47,14 @@ public class Dialog {
 
     public void setType(DialogType type) {
         this.type = type;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public List<Message> getMessages() {

@@ -14,6 +14,8 @@ public class User {
     private Integer userId;
     @Column(name="name")
     private String name;
+    @Column(name="image")
+    private String image;
     @ManyToMany(mappedBy = "users")
     private List<Dialog> dialogs = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL,
@@ -31,6 +33,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public List<Notification> getNotifications() {

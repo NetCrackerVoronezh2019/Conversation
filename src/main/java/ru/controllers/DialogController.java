@@ -1,12 +1,17 @@
 package ru.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import ru.DTO.AmazonModel;
 import ru.DTO.DialogDTO;
 import ru.DTO.MessageDTO;
 import ru.DTO.UserDTO;
 import ru.domen.Dialog;
 import ru.domen.Message;
+import ru.domen.MessageFile;
 import ru.domen.User;
 import ru.services.*;
 
@@ -29,6 +34,8 @@ public class DialogController {
     private NotificationService notificationService;
     @Autowired
     private DialogTypeService dialogTypeService;
+    @Autowired
+    private MessageFileService messageFileService;
 
     @PostMapping("/dialogCreate/")
     public void createDialog(@RequestBody DialogDTO dialogDTO) {
@@ -38,7 +45,38 @@ public class DialogController {
         dialog.setType(dialogTypeService.getDialogTypeByName(dialogDTO.getType()));
         dialog.setCreationDate(new Date());
         dialog.setType(dialogTypeService.getDialogTypeByName("public"));
+        dialog = dialogService.saveDialog(dialog);
+        String key = "dialog_"+ dialog.getDialogId() + "_avatar";
+        AmazonModel amazonModel = new AmazonModel(key,dialogDTO.getImage());
+        dialog.setImage(key);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<AmazonModel> amazonModelHttpEntity = new HttpEntity<>(amazonModel);
+        restTemplate.exchange("http://localhost:1234/dialog/uploadFile", HttpMethod.POST,amazonModelHttpEntity,Object.class);
         dialogService.saveDialog(dialog);
+    }
+
+    @PutMapping("dialog/settings")
+    public void dialogSettings(@RequestBody DialogDTO dialogDTO) {
+        Dialog dialog = dialogService.getDialogById(dialogDTO.getDialogId());
+        dialog.setName(dialogDTO.getName());
+        dialogService.saveDialog(dialog);
+    }
+
+    @PutMapping("dialog/setAvatar")
+    public void dialogSetAvarar(@RequestBody DialogDTO dialogDTO) {
+        Dialog dialog = dialogService.getDialogById(dialogDTO.getDialogId());
+        AmazonModel amazonModel = new AmazonModel(dialog.getImage(),dialogDTO.getImage());
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<AmazonModel> amazonModelHttpEntity = new HttpEntity<>(amazonModel);
+        restTemplate.exchange("http://localhost:1234/dialog/uploadFile", HttpMethod.POST,amazonModelHttpEntity,Object.class);
+    }
+
+    @PutMapping("dialog/setMessage")
+    public void setMessage(@RequestBody MessageDTO messageDTO) {
+        Message message = messageService.getById(messageDTO.getMessageId());
+        message.setText(messageDTO.getText());
+        message.setModified(true);
+        messageService.addMessage(message);
     }
 
     @GetMapping("/getDialogMembers/")
@@ -95,7 +133,22 @@ public class DialogController {
         message.setText(messageDTO.getText());
         message.setModified(messageDTO.isModified());
         message.setDate(new Date());
-        messageService.addMessage(message);
+        message = messageService.addMessage(message);
+        int i = 0;
+        for (String file :
+                messageDTO.getFiles()) {
+            String key = "Message_" + message.getMessageId() + "+file_" + i;
+            AmazonModel amazonModel = new AmazonModel(key,file);
+            MessageFile messageFile = new MessageFile();
+            messageFile.setFile(key);
+            messageFile.setMessage(message);
+            messageFileService.saveMessageFile(messageFile);
+            RestTemplate restTemplate = new RestTemplate();
+            HttpEntity<AmazonModel> amazonModelHttpEntity = new HttpEntity<>(amazonModel);
+            restTemplate.exchange("http://localhost:1234/dialog/uploadFile", HttpMethod.POST,amazonModelHttpEntity,Object.class);
+            i++;
+        }
+        message = messageService.getById(message.getMessageId());
         notificationService.addNotification(message);
         return new MessageDTO(message);
     }

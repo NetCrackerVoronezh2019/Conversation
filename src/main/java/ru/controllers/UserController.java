@@ -30,6 +30,13 @@ public class UserController {
         return userDTO;
     }
 
+    @PutMapping("user/updateUserImage")
+    public void updeteAvatar(@RequestParam Integer userId,@RequestParam String key) {
+        User user = userService.getUserById(userId);
+        user.setImage(key);
+        userService.addUser(user);
+    }
+
 
     @GetMapping("/getUserDialogs")
     public List<DialogDTO> getDialogs(@RequestParam Integer userId, @RequestParam(required = false) String type) {
@@ -55,6 +62,13 @@ public class UserController {
         User user = new User();
         user.setName(userDTO.getName());
         user.setUserId(userDTO.getUserId());
+        userService.addUser(user);
+    }
+
+    @PutMapping("user/settings")
+    public void userSettings(@RequestBody UserDTO userDTO) {
+        User user = userService.getUserById(userDTO.getUserId());
+        user.setName(userDTO.getName());
         userService.addUser(user);
     }
 
