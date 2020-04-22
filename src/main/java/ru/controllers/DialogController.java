@@ -46,13 +46,15 @@ public class DialogController {
         dialog.setCreationDate(new Date());
         dialog.setType(dialogTypeService.getDialogTypeByName("public"));
         dialog = dialogService.saveDialog(dialog);
-        String key = "dialog_"+ dialog.getDialogId() + "_avatar";
-        AmazonModel amazonModel = new AmazonModel(key,dialogDTO.getImage());
-        dialog.setImage(key);
-        RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<AmazonModel> amazonModelHttpEntity = new HttpEntity<>(amazonModel);
-        restTemplate.exchange("http://localhost:1234/dialog/uploadFile", HttpMethod.POST,amazonModelHttpEntity,Object.class);
-        dialogService.saveDialog(dialog);
+        if (dialogDTO.getImage()!= null) {
+            String key = "dialog_" + dialog.getDialogId() + "_avatar";
+            AmazonModel amazonModel = new AmazonModel(key, dialogDTO.getImage());
+            dialog.setImage(key);
+            RestTemplate restTemplate = new RestTemplate();
+            HttpEntity<AmazonModel> amazonModelHttpEntity = new HttpEntity<>(amazonModel);
+            restTemplate.exchange("http://localhost:1234/dialog/uploadFile", HttpMethod.POST, amazonModelHttpEntity, Object.class);
+            dialogService.saveDialog(dialog);
+        }
     }
 
     @PutMapping("dialog/settings")
