@@ -31,7 +31,7 @@ public class Message {
     @Column(name="isModified")
     private boolean isModified;
     @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             mappedBy = "message")
     private List<MessageFile> files = new ArrayList<>();
 

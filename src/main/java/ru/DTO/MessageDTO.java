@@ -15,6 +15,7 @@ public class MessageDTO {
     private UserDTO sender;
     private boolean isModified;
     private List<String> files = new ArrayList<>();
+    private List<String> names = new ArrayList<>();
 
     public MessageDTO(Message message) {
         messageId = message.getMessageId();
@@ -25,6 +26,7 @@ public class MessageDTO {
         for (MessageFile file :
                 message.getFiles()) {
             this.files.add(file.getFile());
+            this.names.add(file.getName());
         }
     }
 
@@ -32,6 +34,14 @@ public class MessageDTO {
         MessageDTO messageDTO = new MessageDTO(message);
         messageDTO.sender =new UserDTO(message.getSender());
         return messageDTO;
+    }
+
+    public List<String> getNames() {
+        return names;
+    }
+
+    public void setNames(List<String> names) {
+        this.names = names;
     }
 
     public List<String> getFiles() {

@@ -11,9 +11,19 @@ public class MessageFile {
     private Long fileId;
     @Column(name = "file")
     private String file;
+    @Column(name="name")
+    private String name;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "messageId")
     private Message message;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Long getFileId() {
         return fileId;

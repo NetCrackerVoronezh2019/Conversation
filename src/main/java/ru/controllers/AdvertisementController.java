@@ -29,6 +29,7 @@ public class AdvertisementController {
         dialog.setCreatorId(creatorId);
         dialog.setName(advertisementName);
         dialog.getUsers().add(userService.getUserById(userId));
+        dialog.getUsers().add(userService.getUserById(creatorId));
         dialog.setType(dialogTypeService.getDialogTypeByName("advertisement"));
         return dialogService.saveDialog(dialog).getDialogId();
     }

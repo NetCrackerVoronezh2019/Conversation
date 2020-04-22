@@ -134,22 +134,20 @@ public class DialogController {
         message.setModified(messageDTO.isModified());
         message.setDate(new Date());
         message = messageService.addMessage(message);
-        int i = 0;
-        for (String file :
-                messageDTO.getFiles()) {
+        for (int i =0; i< messageDTO.getFiles().size();i++) {
             String key = "Message_" + message.getMessageId() + "+file_" + i;
-            AmazonModel amazonModel = new AmazonModel(key,file);
+            AmazonModel amazonModel = new AmazonModel(key,messageDTO.getFiles().get(i));
             MessageFile messageFile = new MessageFile();
             messageFile.setFile(key);
+            messageFile.setName(messageDTO.getNames().get(i));
             messageFile.setMessage(message);
             messageFileService.saveMessageFile(messageFile);
+            message.getFiles().add(messageFile);
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<AmazonModel> amazonModelHttpEntity = new HttpEntity<>(amazonModel);
             restTemplate.exchange("http://localhost:1234/dialog/uploadFile", HttpMethod.POST,amazonModelHttpEntity,Object.class);
-            i++;
         }
-        message = messageService.getById(message.getMessageId());
         notificationService.addNotification(message);
-        return new MessageDTO(message);
+        return MessageDTO.getMessageDTO(message);
     }
 }
