@@ -13,7 +13,8 @@ public class MessageDTO {
     private Date date;
     private Integer dialog;
     private UserDTO sender;
-    private boolean isModified;
+    private boolean modified;
+    private boolean readBySomebody;
     private List<String> files = new ArrayList<>();
     private List<String> names = new ArrayList<>();
 
@@ -22,7 +23,8 @@ public class MessageDTO {
         text = message.getText();
         date = message.getDate();
         dialog = message.getDialog().getDialogId();
-        isModified = message.isModified();
+        modified = message.isModified();
+        readBySomebody = message.isReadBySomebodey();
         for (MessageFile file :
                 message.getFiles()) {
             this.files.add(file.getFile());
@@ -53,6 +55,14 @@ public class MessageDTO {
     }
 
     public MessageDTO() {
+    }
+
+    public boolean isReadBySomebody() {
+        return readBySomebody;
+    }
+
+    public void setReadBySomebody(boolean readBySomebody) {
+        this.readBySomebody = readBySomebody;
     }
 
     public UserDTO getSender() {
@@ -88,11 +98,11 @@ public class MessageDTO {
     }
 
     public boolean isModified() {
-        return isModified;
+        return modified;
     }
 
     public void setModified(boolean modified) {
-        isModified = modified;
+        this.modified = modified;
     }
 
     public Integer getDialog() {

@@ -89,7 +89,7 @@ public class DialogController {
 
     @GetMapping("/getDialogMessages/")
     public List<MessageDTO> getMessages(@RequestParam(name = "dialogId") Integer dialogId, @RequestParam Integer userId) {
-        return messageService.getDialogMessages(dialogId).stream().sorted(Comparator.comparing(MessageDTO::getDate).reversed()).collect(Collectors.toList());
+        return messageService.getDialogMessages(dialogId).stream().sorted(Comparator.comparing(MessageDTO::getDate)).collect(Collectors.toList());
     }
 
     @GetMapping("/getDialog/")
@@ -133,7 +133,8 @@ public class DialogController {
         message.setDialog(dialogService.getDialogById(messageDTO.getDialog()));
         message.setSender(userService.getUserById(messageDTO.getSender().getUserId()));
         message.setText(messageDTO.getText());
-        message.setModified(messageDTO.isModified());
+        message.setModified(false);
+        message.setReadBySomebodey(false);
         message.setDate(new Date());
         message = messageService.addMessage(message);
         for (int i =0; i< messageDTO.getFiles().size();i++) {

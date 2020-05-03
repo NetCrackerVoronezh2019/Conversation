@@ -30,6 +30,8 @@ public class Message {
     private User sender;
     @Column(name="isModified")
     private boolean isModified;
+    @Column(name="isReadBySomebody")
+    private boolean isReadBySomebodey;
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "message")
@@ -41,6 +43,14 @@ public class Message {
         this.dialog = dialog;
         this.sender = sender;
         isModified = false;
+    }
+
+    public boolean isReadBySomebodey() {
+        return isReadBySomebodey;
+    }
+
+    public void setReadBySomebodey(boolean readBySomebodey) {
+        isReadBySomebodey = readBySomebodey;
     }
 
     public List<MessageFile> getFiles() {

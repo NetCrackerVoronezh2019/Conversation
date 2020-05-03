@@ -3,7 +3,9 @@ package ru.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.DTO.NotificationDTO;
+import ru.domen.Message;
 import ru.domen.Notification;
+import ru.services.MessageService;
 import ru.services.NotificationService;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 public class NotificationController {
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private MessageService messageService;
 
     @GetMapping("/getUserNotifications/")
     public List<NotificationDTO> getUserNotifications(@RequestParam Integer userId) {
@@ -35,6 +39,12 @@ public class NotificationController {
 
     @DeleteMapping("/cleanUserNotifications/")
     public void cleanUserNotification(@RequestParam Integer userId, @RequestParam Integer dialogId) {
+        List<Message> messages = notificationService.getUserDialogNotifications(userId,dialogId).stream().map(Notification::getMessage).collect(Collectors.toList());
+        for (Message message :
+                messages) {
+            message.setReadBySomebodey(true);
+            messageService.addMessage(message);
+        }
         notificationService.deleteUserNotification(userId,dialogId);
     }
 
