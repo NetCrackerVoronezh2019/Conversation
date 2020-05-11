@@ -48,19 +48,25 @@ public class UserAndGroupController {
     }
 
     @PostMapping("group/createDialog")
-    public Integer createGroupDialog(@RequestParam Integer creatorId, @RequestParam String name) {
+    public Integer createGroupDialog(@RequestParam Integer creatorId, @RequestParam String name, @RequestParam(required = false) String image) {
         Dialog dialog =new Dialog();
         dialog.setCreationDate(new Date());
         dialog.setCreatorId(creatorId);
         dialog.setName(name);
         dialog.setType(dialogTypeService.getDialogTypeByName("group"));
+        if (image != null) {
+            dialog.setImage(image);
+        }
         return dialogService.saveDialog(dialog).getDialogId();
     }
 
     @PutMapping("group/settings")
-    public void groupRename(@RequestParam Integer dialogId, @RequestParam String groupName) {
+    public void groupRename(@RequestParam Integer dialogId, @RequestParam String groupName, @RequestParam(required = false) String image) {
         Dialog dialog = dialogService.getDialogById(dialogId);
         dialog.setName(groupName);
+        if (image != null) {
+            dialog.setImage(image);
+        }
         dialogService.saveDialog(dialog);
     }
 

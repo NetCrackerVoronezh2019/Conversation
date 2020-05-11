@@ -67,6 +67,10 @@ public class DialogController {
     @PutMapping("dialog/setAvatar")
     public void dialogSetAvarar(@RequestBody DialogDTO dialogDTO) {
         Dialog dialog = dialogService.getDialogById(dialogDTO.getDialogId());
+        if (dialog.getImage()== null) {
+            dialog.setImage("dialog_" + dialog.getDialogId() + "_avatar");
+            dialogService.saveDialog(dialog);
+        }
         AmazonModel amazonModel = new AmazonModel(dialog.getImage(),dialogDTO.getImage());
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<AmazonModel> amazonModelHttpEntity = new HttpEntity<>(amazonModel);
