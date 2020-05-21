@@ -13,6 +13,7 @@ import ru.domen.Dialog;
 import ru.domen.Message;
 import ru.domen.MessageFile;
 import ru.domen.User;
+import ru.kafka.Microservices;
 import ru.services.*;
 
 import java.util.Comparator;
@@ -21,7 +22,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:9080")
 public class DialogController {
 
     @Autowired
@@ -36,6 +36,8 @@ public class DialogController {
     private DialogTypeService dialogTypeService;
     @Autowired
     private MessageFileService messageFileService;
+    @Autowired
+    private Microservices microservices;
 
     @PostMapping("/dialogCreate/")
     public void createDialog(@RequestBody DialogDTO dialogDTO) {
@@ -52,7 +54,7 @@ public class DialogController {
             dialog.setImage(key);
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<AmazonModel> amazonModelHttpEntity = new HttpEntity<>(amazonModel);
-            restTemplate.exchange("http://localhost:1234/dialog/uploadFile", HttpMethod.POST, amazonModelHttpEntity, Object.class);
+            restTemplate.exchange("http://192.168.99.103:"+ microservices.getAmazonPort() +"/dialog/uploadFile", HttpMethod.POST, amazonModelHttpEntity, Object.class);
             dialogService.saveDialog(dialog);
         }
     }
@@ -74,7 +76,7 @@ public class DialogController {
         AmazonModel amazonModel = new AmazonModel(dialog.getImage(),dialogDTO.getImage());
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<AmazonModel> amazonModelHttpEntity = new HttpEntity<>(amazonModel);
-        restTemplate.exchange("http://localhost:1234/dialog/uploadFile", HttpMethod.POST,amazonModelHttpEntity,Object.class);
+        restTemplate.exchange("http://192.168.99.103:"+ microservices.getAmazonPort() +"/dialog/uploadFile", HttpMethod.POST,amazonModelHttpEntity,Object.class);
     }
 
     @PutMapping("dialog/setMessage")
@@ -152,7 +154,7 @@ public class DialogController {
             message.getFiles().add(messageFile);
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<AmazonModel> amazonModelHttpEntity = new HttpEntity<>(amazonModel);
-            restTemplate.exchange("http://localhost:1234/dialog/uploadFile", HttpMethod.POST,amazonModelHttpEntity,Object.class);
+            restTemplate.exchange("http://192.168.99.103:"+ microservices.getAmazonPort() +"/dialog/uploadFile", HttpMethod.POST,amazonModelHttpEntity,Object.class);
         }
         notificationService.addNotification(message);
         return MessageDTO.getMessageDTO(message);

@@ -11,7 +11,6 @@ import ru.services.UserService;
 import java.util.Date;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:1122")
 public class AdvertisementController {
     @Autowired
     private DialogService dialogService;
@@ -23,7 +22,7 @@ public class AdvertisementController {
     private MessageService messageService;
 
     @PostMapping("/advertisement/createDialog")
-    public Integer createGroupDialog(@RequestParam Integer creatorId,@RequestParam Integer userId, @RequestParam String advertisementName) {
+    public Integer createGroupDialog(@RequestParam Integer creatorId,@RequestParam Integer userId, @RequestParam String advertisementName,@RequestParam(required = false) String key) {
         Dialog dialog =new Dialog();
         dialog.setCreationDate(new Date());
         dialog.setCreatorId(creatorId);
@@ -31,6 +30,9 @@ public class AdvertisementController {
         dialog.getUsers().add(userService.getUserById(userId));
         dialog.getUsers().add(userService.getUserById(creatorId));
         dialog.setType(dialogTypeService.getDialogTypeByName("advertisement"));
+        if (key != null) {
+            dialog.setImage(key);
+        }
         return dialogService.saveDialog(dialog).getDialogId();
     }
 

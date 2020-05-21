@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8090")
 public class UserAndGroupController {
     @Autowired
     private UserService userService;
