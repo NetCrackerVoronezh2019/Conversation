@@ -5,6 +5,7 @@ import ru.domen.Notification;
 import ru.domen.User;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,14 +15,14 @@ public class NotificationDTO {
     private Integer messageId;
     private Integer userId;
     private String senderName;
-    private Date date;
+    private LocalDateTime date;
     private boolean isread;
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

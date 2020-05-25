@@ -8,6 +8,7 @@ import ru.domen.Notification;
 import ru.repos.NotificationRepository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,7 @@ public class NotificationService {
         for (int i = 0; i < message.getDialog().getUsers().size(); i++) {
             if (message.getSender().getUserId() != message.getDialog().getUsers().get(i).getUserId()) {
                 Notification notification = new Notification();
-                notification.setDate(new Date());
+                notification.setDate(LocalDateTime.now().plusHours(3));
                 notification.setMessage(message);
                 notification.setUser(message.getDialog().getUsers().get(i));
                 notification.setIsread(false);

@@ -3,6 +3,7 @@ package ru.DTO;
 import ru.domen.Message;
 import ru.domen.MessageFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public class MessageDTO {
     private Integer messageId;
     private String text;
-    private Date date;
+    private LocalDateTime date;
     private Integer dialog;
     private UserDTO sender;
     private boolean modified;
@@ -89,11 +90,11 @@ public class MessageDTO {
         this.text = text;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

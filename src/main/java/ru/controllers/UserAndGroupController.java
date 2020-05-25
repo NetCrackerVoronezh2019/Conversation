@@ -10,6 +10,7 @@ import ru.services.DialogTypeService;
 import ru.services.MessageService;
 import ru.services.UserService;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,7 @@ public class UserAndGroupController {
             }
         }
         Dialog dialog =new Dialog();
-        dialog.setCreationDate(new Date());
+        dialog.setCreationDate(LocalDateTime.now().plusHours(3));
         dialog.setCreatorId(creatorId);
         dialog.setName(user.getName() + " " + creator.getName());
         dialog.getUsers().add(userService.getUserById(userId));
@@ -49,7 +50,7 @@ public class UserAndGroupController {
     @PostMapping("group/createDialog")
     public Integer createGroupDialog(@RequestParam Integer creatorId, @RequestParam String name, @RequestParam(required = false) String image) {
         Dialog dialog =new Dialog();
-        dialog.setCreationDate(new Date());
+        dialog.setCreationDate(LocalDateTime.now().plusHours(3));
         dialog.setCreatorId(creatorId);
         dialog.setName(name);
         dialog.setType(dialogTypeService.getDialogTypeByName("group"));

@@ -8,6 +8,7 @@ import ru.services.DialogTypeService;
 import ru.services.MessageService;
 import ru.services.UserService;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @RestController
@@ -24,7 +25,7 @@ public class AdvertisementController {
     @PostMapping("/advertisement/createDialog")
     public Integer createGroupDialog(@RequestParam Integer creatorId,@RequestParam Integer userId, @RequestParam String advertisementName,@RequestParam(required = false) String key) {
         Dialog dialog =new Dialog();
-        dialog.setCreationDate(new Date());
+        dialog.setCreationDate(LocalDateTime.now().plusHours(3));
         dialog.setCreatorId(creatorId);
         dialog.setName(advertisementName);
         dialog.getUsers().add(userService.getUserById(userId));

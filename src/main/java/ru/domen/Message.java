@@ -1,6 +1,12 @@
 package ru.domen;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +22,9 @@ public class Message {
     @Column(name="TEXT")
     private String text;
     @Column(name="DATEOFSENDING")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime date;
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "message")
@@ -39,7 +46,7 @@ public class Message {
 
     public Message(String text, Dialog dialog, User sender) {
         this.text = text;
-        this.date = new Date();
+        this.date = LocalDateTime.now();
         this.dialog = dialog;
         this.sender = sender;
         isModified = false;
@@ -106,11 +113,11 @@ public class Message {
         this.text = text;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

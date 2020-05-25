@@ -16,6 +16,7 @@ import ru.domen.User;
 import ru.kafka.Microservices;
 import ru.services.*;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,7 @@ public class DialogController {
         dialog.setName(dialogDTO.getName());
         dialog.setCreatorId(dialogDTO.getCreatorId());
         dialog.setType(dialogTypeService.getDialogTypeByName(dialogDTO.getType()));
-        dialog.setCreationDate(new Date());
+        dialog.setCreationDate(LocalDateTime.now().plusHours(3));
         dialog.setType(dialogTypeService.getDialogTypeByName("public"));
         dialog = dialogService.saveDialog(dialog);
         if (dialogDTO.getImage()!= null) {
@@ -141,7 +142,7 @@ public class DialogController {
         message.setText(messageDTO.getText());
         message.setModified(false);
         message.setReadBySomebodey(false);
-        message.setDate(new Date());
+        message.setDate(LocalDateTime.now().plusHours(3));
         message = messageService.addMessage(message);
         for (int i =0; i< messageDTO.getFiles().size();i++) {
             String key = "Message_" + message.getMessageId() + "+file_" + i;

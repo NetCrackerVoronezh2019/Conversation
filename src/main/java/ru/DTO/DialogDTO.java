@@ -7,6 +7,7 @@ import ru.domen.User;
 import ru.services.MessageService;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -17,12 +18,12 @@ import java.util.stream.Collectors;
 public class DialogDTO {
     private Integer dialogId;
     private String name;
-    private Date creationDate;
+    private LocalDateTime creationDate;
     private Integer creatorId;
     private List<UserDTO> users;
     private List<MessageDTO> messages;
     private Long countNotification;
-    private Date lastMessageDate;
+    private LocalDateTime lastMessageDate;
     private String type;
     private String image;
 
@@ -34,12 +35,8 @@ public class DialogDTO {
         this.countNotification = countNotification;
     }
 
-    public Date getLastMessageDate() {
+    public LocalDateTime getLastMessageDate() {
         return lastMessageDate;
-    }
-
-    public void setLastMessageDate(Date lastMessageDate) {
-        this.lastMessageDate = lastMessageDate;
     }
 
     public DialogDTO(Dialog dialog) {
@@ -106,12 +103,16 @@ public class DialogDTO {
         this.name = name;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public void setLastMessageDate(LocalDateTime lastMessageDate) {
+        this.lastMessageDate = lastMessageDate;
     }
 
     public Integer getCreatorId() {

@@ -1,9 +1,14 @@
 package ru.domen;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.services.UserService;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,8 +24,9 @@ public class Dialog {
     @Column(name="name")
     private String name;
     @Column(name="creationDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date creationDate;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime creationDate;
     @Column(name="CreatorID")
     private Integer creatorId;
     @Column(name="image")
@@ -73,7 +79,7 @@ public class Dialog {
         this.users = users;
     }
 
-    public Dialog(String name, Date creationDate, Integer creatorId) {
+    public Dialog(String name, LocalDateTime creationDate, Integer creatorId) {
         this.name = name;
         this.creationDate = creationDate;
         this.creatorId = creatorId;
@@ -98,11 +104,11 @@ public class Dialog {
         this.name = name;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
